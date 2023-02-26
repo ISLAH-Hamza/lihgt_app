@@ -145,7 +145,7 @@ def  main_analysis():
 
     ######################  Main Bar  ######################################################
 
-    st.title(":bar_chart: Mycif Analysis")
+    st.title(":bar_chart: MyCig Analysis")
     st.markdown("---")
 
     # ============== show the pdv result in each stocks ===================
