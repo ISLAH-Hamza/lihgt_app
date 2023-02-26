@@ -201,13 +201,13 @@ def  main_analysis():
 
 
     data=go.Scatter(x=timeSeries.index,y=timeSeries['Quantité'], mode='lines', name='Quantité')
-    layout = go.Layout(title='Multiple Lines Plot')
+    layout = go.Layout(title='Fournisseur Plot')
     fig = go.Figure(data=data, layout=layout)
     col2.plotly_chart(fig)
 
 
     ####################################""
-    st.markdown("<h4 style='font-size:20px;'>le nombre d\'élement vendus :</h4>",unsafe_allow_html=True)
+    st.markdown("<h4 style='font-size:20px;'>Nombre d\'élement vendus :</h4>",unsafe_allow_html=True)
     col1,col2=st.columns([4,2])
     col1.markdown("<h4 style='font-size:20px'>{} à </h4>".format(begin_date), unsafe_allow_html=True)
     col2.markdown("<h4 style='font-size:20px'>{} est</h4>".format(end_date), unsafe_allow_html=True)
