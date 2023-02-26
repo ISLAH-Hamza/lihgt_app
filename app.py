@@ -74,7 +74,7 @@ def  main_analysis():
                 format='%Y-%m-%d')
         sales.drop_duplicates(inplace=True)
 
-        mycig=pd.read_csv('Product.csv')\
+        mycig=pd.read_csv('product.csv')\
                         .drop_duplicates()
 
         
