@@ -174,17 +174,17 @@ def  main_analysis():
                     pass
 
     trace = go.Bar(x=X, y=y)
-    layout = go.Layout(title='QUANTITE DE CHAQUE STOCK', xaxis=dict(title='Nom de Stock'), yaxis=dict(title='stoke'))
+    layout = go.Layout(title='QUANTITE DE PRODUITS DISPONIBLE DANS CHAQUE STOCK', xaxis=dict(title='Magasin'), yaxis=dict(title='Stock'))
     fig = go.Figure(data=[trace], layout=layout)
 
-    col1.markdown("<div style='margin:50% 0px;text-align:center'><h6>QUANTITE GLOBALE DES STOKE</h6><h1 style='font-size:50px'>{}</h1></div>".format(mycig['Stock'].sum()), unsafe_allow_html=True)
+    col1.markdown("<div style='margin:50% 0px;text-align:center'><h6>QUANTITE GLOBALE DES STOCK</h6><h1 style='font-size:50px'>{}</h1></div>".format(mycig['Stock'].sum()), unsafe_allow_html=True)
     col2.plotly_chart(fig)
 
 
     ###########################################################
 
     trace2 = go.Bar(x=mycig['Catégorie'], y=mycig['Stock'])
-    layout2 = go.Layout(title='QUANTITE DE CHAQUE Produit', xaxis=dict(title='Nom de Stock'), yaxis=dict(title='stoke'))
+    layout2 = go.Layout(title='QUANTITE DISPONIBLE DE CHAQUE PRODUIT', xaxis=dict(title='Produit'), yaxis=dict(title='Stock'))
     fig2 = go.Figure(data=[trace2], layout=layout2)
     st.plotly_chart(fig2)
 
@@ -193,7 +193,7 @@ def  main_analysis():
 
     df=sales.groupby(['Point_de_vente','Catégorie']).sum()['Quantité'].to_frame().reset_index().sort_values("Quantité",ascending=False)
     
-    col1.text("les produits les vondus dans les store")
+    col1.text("<span style='font-weight: bold;' >Les produits les plus vendus dans chaque magasin</span>",unsafe_allow_html=True)
     col1.dataframe(df)
 
     timeSeries=sales.pivot_table(index='Date de validation',values='Quantité',aggfunc='sum',fill_value=0)
