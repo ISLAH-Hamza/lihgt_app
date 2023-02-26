@@ -247,7 +247,7 @@ def  main_analysis():
     return True
 
 
-st.set_page_config(page_title="Data analysis", page_icon=":bar_chart:", layout="wide")
+st.set_page_config(page_title="Data analysis", page_icon="favicon.png" , layout="wide")
 page=st.sidebar.selectbox('Selectionner la page: ',['main','import'])
 st.sidebar.markdown('---')
 if page=='main':
