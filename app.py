@@ -193,7 +193,7 @@ def  main_analysis():
 
     df=sales.groupby(['Point_de_vente','Catégorie']).sum()['Quantité'].to_frame().reset_index().sort_values("Quantité",ascending=False)
     
-    col1.text("<span style='font-weight: bold;' >Les produits les plus vendus dans chaque magasin</span>",unsafe_allow_html=True)
+    col1.markdown("<span style='font-weight: bold;' >Les produits les plus vendus dans chaque magasin</span>",unsafe_allow_html=True)
     col1.dataframe(df)
 
     timeSeries=sales.pivot_table(index='Date de validation',values='Quantité',aggfunc='sum',fill_value=0)
