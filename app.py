@@ -89,7 +89,7 @@ def  main_analysis():
         return st.sidebar.multiselect(column,options=df[column].dropna().unique())
 
 
-    def timeSeries_manip(df):
+    def timeSeries_manip(df,N):
         values=[]
         cols=[]
         for col in df:
@@ -101,7 +101,7 @@ def  main_analysis():
             values.append(
                     round(max(
                         0,
-                        model.predict(start=len(result), end=len(result)+30).sum()
+                        model.predict(start=len(result), end=len(result)+N).sum()
                         ))
 
                 )
@@ -140,8 +140,7 @@ def  main_analysis():
     end_date = st.sidebar.date_input("Date 2",sales['Date de validation'].max())    
 
     coissance = st.sidebar.number_input("Croissance in %") 
-    temp_de_traittement = st.sidebar.number_input("Temps de traitement de commande", value=0)
-
+    
 
     ######################  Main Bar  ######################################################
 
@@ -217,6 +216,21 @@ def  main_analysis():
     st.markdown("---")
 
     ################## time series plot  vent ########################
+   
+    def time_prediction(N):
+        for stock in filter_table["Point_de_vente"].dropna().unique():
+            time_data=sales[(sales["Point_de_vente"]==stock) ]
+            timeSeries=time_data.pivot_table(index='Date de validation',columns='Catégorie',values='Quantité',aggfunc='sum',fill_value=0)
+            prediction=timeSeries_manip(timeSeries,N)
+            stock_charge=mycig.groupby('Catégorie',as_index=False).count()[['Catégorie','Stock {}'.format(stock),]]
+            stock_charge['Stock {}'.format(stock)]=stock_charge['Stock {}'.format(stock)]
+            result=prediction.merge(stock_charge,how='left',on="Catégorie")
+            result['besoin']=(result['estimation']-result['Stock {}'.format(stock)]).apply(lambda x:max(x,0)).astype('Int32')
+            besoin_day=result['estimation']/N
+            result['stoke capacité']=(result['Stock {}'.format(stock)]//besoin_day)
+            st.dataframe(result)
+    
+            
     col1,col2,col3=st.columns((1,1,3))
 
     button_1 = col1.button("Besoin Dans 30 jours", key="inline")
@@ -224,17 +238,11 @@ def  main_analysis():
     button_3 = col3.button("Besoin Dans 90 jours", key="inline3")
 
     if button_1:
-        for stock in filter_table["Point_de_vente"].dropna().unique():
-            time_data=sales[(sales["Point_de_vente"]==stock) ]
-            timeSeries=time_data.pivot_table(index='Date de validation',columns='Catégorie',values='Quantité',aggfunc='sum',fill_value=0)
-            prediction=timeSeries_manip(timeSeries)
-            stock_charge=mycig.groupby('Catégorie',as_index=False).count()[['Catégorie','Stock {}'.format(stock),]]
-            stock_charge['Stock {}'.format(stock)]=stock_charge['Stock {}'.format(stock)]
-            result=prediction.merge(stock_charge,how='left',on="Catégorie")
-            result['besoin']=(result['estimation']-result['Stock {}'.format(stock)]).apply(lambda x:max(x,0)).astype('Int32')
-            besoin_day=result['estimation']/60
-            result['stoke capacité']=(result['Stock {}'.format(stock)]//besoin_day)
-            st.dataframe(result)
+        time_prediction(30)
+    elif button_2:
+        time_prediction(60)
+    elif button_3:
+        time_prediction(90)
     ##############  ask saad ########################
     return True
 
