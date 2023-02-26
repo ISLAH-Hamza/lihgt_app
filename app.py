@@ -24,7 +24,7 @@ from yaml import SafeLoader
 
 
 def import_data():
-    data_product=st.file_uploader(label='importer les données de stock et de produit')
+    data_product=st.file_uploader(label='Importer les données de votre stock et de vos produits')
     if data_product:
         Product=pd.read_csv(data_product)
         Product['IdPro']=(Product['id'].astype(str)+Product['id decl'].astype(str)).astype('Int64')
@@ -32,7 +32,7 @@ def import_data():
         # ======save the data====
         Product.to_csv('product.csv',index=False)
 
-    data=st.file_uploader(label='importer les données des ventes')
+    data=st.file_uploader(label='Importer vos données de ventes')
     if data: 
         sales=pd.read_csv(data)
         try:
@@ -240,11 +240,11 @@ def  main_analysis():
 
 
 st.set_page_config(page_title="Data analysis", page_icon=":bar_chart:", layout="wide")
-page=st.sidebar.selectbox('selectioner la page: ',['main','import'])
+page=st.sidebar.selectbox('Selectionner la page: ',['main','import'])
 st.sidebar.markdown('---')
 if page=='main':
     main_analysis()
 if page=='import':
     import_data()
-    st.sidebar.markdown('Remarque: importer les corrects données pour chaque selection')
+    st.sidebar.markdown('Remarque: Veuillez importer les données correspondantes à chaque instruction')
 st.sidebar.markdown('---')
